@@ -34,7 +34,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const newSocket = io('http://localhost:3001');
+        const newSocket = io(`http://${window.location.hostname}:3001`);
         setSocket(newSocket);
 
         newSocket.on('connect', () => {

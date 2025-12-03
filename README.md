@@ -70,6 +70,15 @@ npm run dev
 
 The client will start, usually on `http://localhost:5173`. Open this URL in your browser to play.
 
+### 3. Play on Local Network
+
+To play with others on the same Wi-Fi/Network:
+
+1.  Find your computer's local IP address (e.g., `10.162.5.85`).
+2.  Share the URL with your friends: `http://<YOUR_IP_ADDRESS>:5173`
+    *   Example: `http://10.162.5.85:5173`
+3.  Make sure your firewall allows connections to ports `3001` (Server) and `5173` (Client).
+
 ## Project Structure
 
 -   `client/`: Frontend React application.
