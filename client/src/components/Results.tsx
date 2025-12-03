@@ -2,13 +2,14 @@ import React from 'react';
 import { useGame } from '../context/GameContext';
 
 export const Results: React.FC = () => {
-    const { room, player, leaveRoom } = useGame();
+    const { room, player, leaveRoom, playerReady } = useGame();
 
     if (!room || !player) return null;
 
     const sortedPlayers = [...room.players].sort((a, b) => b.progress - a.progress);
     const winner = sortedPlayers[0];
     const isWinner = winner.id === player.id;
+    const me = room.players.find(p => p.id === player.id);
 
     return (
         <div className="results-overlay">
@@ -28,13 +29,23 @@ export const Results: React.FC = () => {
                             <span className="avatar">{p.avatar}</span>
                             <span className="name">{p.username}</span>
                             <span className="wpm">{p.wpm} WPM</span>
+                            {p.isReady && <span className="ready-badge">READY</span>}
                         </div>
                     ))}
                 </div>
 
-                <button className="btn primary" onClick={leaveRoom}>
-                    PLAY AGAIN
-                </button>
+                <div className="results-actions">
+                    <button className="btn secondary" onClick={leaveRoom}>
+                        LEAVE
+                    </button>
+                    {!me?.isReady ? (
+                        <button className="btn primary" onClick={playerReady}>
+                            READY UP
+                        </button>
+                    ) : (
+                        <div className="waiting-msg">Waiting for others...</div>
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -12,6 +12,7 @@ interface GameContextType {
     startGame: () => void;
     updateProgress: (progress: number, wpm: number) => void;
     leaveRoom: () => void;
+    playerReady: () => void;
     error: string | null;
 }
 
@@ -70,6 +71,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setGameState('game');
         });
 
+        newSocket.on('timer_update', (timeLeft: number) => {
+            setRoom(prev => prev ? { ...prev, timer: timeLeft } : null);
+        });
+
+        newSocket.on('game_over', (finishedRoom: Room) => {
+            setRoom(finishedRoom);
+            setGameState('results');
+        });
+
         newSocket.on('error', (msg: string) => {
             setError(msg);
             setTimeout(() => setError(null), 3000);
@@ -105,9 +115,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const leaveRoom = () => {
-        // Refreshing the page is the easiest way to fully reset for now, 
-        // but we can also emit a leave event if we want to stay SPA.
         window.location.reload();
+    };
+
+    const playerReady = () => {
+        if (socket && room) {
+            socket.emit('player_ready', { roomId: room.id });
+        }
     };
 
     return (
@@ -121,6 +135,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
             startGame,
             updateProgress,
             leaveRoom,
+            playerReady,
             error
         }}>
             {children}
