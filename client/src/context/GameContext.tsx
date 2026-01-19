@@ -34,7 +34,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [gameState, setGameState] = useState<'menu' | 'lobby' | 'game' | 'results'>('menu');
     const [error, setError] = useState<string | null>(null);
 
-useEffect(() => {
+    useEffect(() => {
         console.log('Initializing socket connection...');
         const newSocket = io(`http://${window.location.hostname}:3001`, {
             timeout: 10000,
@@ -66,7 +66,7 @@ useEffect(() => {
             console.log(`📡 Socket event: ${eventName}`, args);
         });
 
-newSocket.on('room_created', (newRoom: Room) => {
+        newSocket.on('room_created', (newRoom: Room) => {
             setRoom(newRoom);
             setGameState('lobby');
             soundManager.playSuccess();
@@ -74,7 +74,7 @@ newSocket.on('room_created', (newRoom: Room) => {
             if (me) setPlayer(me);
         });
 
-newSocket.on('room_joined', (newRoom: Room) => {
+        newSocket.on('room_joined', (newRoom: Room) => {
             setRoom(newRoom);
             setGameState('lobby');
             soundManager.playSuccess();
@@ -93,7 +93,7 @@ newSocket.on('room_joined', (newRoom: Room) => {
             }
         });
 
-newSocket.on('game_started', (startedRoom: Room) => {
+        newSocket.on('game_started', (startedRoom: Room) => {
             setRoom(startedRoom);
             setGameState('game');
             soundManager.playSuccess();
@@ -103,10 +103,10 @@ newSocket.on('game_started', (startedRoom: Room) => {
             setRoom(prev => prev ? { ...prev, timer: timeLeft } : null);
         });
 
-newSocket.on('game_over', (finishedRoom: Room) => {
+        newSocket.on('game_over', (finishedRoom: Room) => {
             setRoom(finishedRoom);
             setGameState('results');
-            
+
             // Check if current player won
             const me = finishedRoom.players.find(p => p.id === newSocket.id);
             if (me && finishedRoom.players[0]?.id === me.id) {
@@ -116,7 +116,7 @@ newSocket.on('game_over', (finishedRoom: Room) => {
             }
         });
 
-newSocket.on('error', (msg: string) => {
+        newSocket.on('error', (msg: string) => {
             console.error('Socket error:', msg);
             setError(msg);
             soundManager.playError();
@@ -135,25 +135,7 @@ newSocket.on('error', (msg: string) => {
         };
     }, []);
 
-const createRoom = (username: string, avatar: string) => {
-        if (socket) {
-            console.log('Creating room with:', { username, avatar });
-            socket.emit('create_room', { username, avatar });
-        } else {
-            console.error('Socket not connected');
-            setError('Not connected to server. Please refresh the page.');
-        }
-    };
 
-const joinRoom = (roomId: string, username: string, avatar: string) => {
-        if (socket) {
-            console.log('Joining room:', { roomId, username, avatar });
-            socket.emit('join_room', { roomId, username, avatar });
-        } else {
-            console.error('Socket not connected');
-            setError('Not connected to server. Please refresh the page.');
-        }
-    };
 
     const startGame = () => {
         if (socket && room) {
@@ -177,7 +159,7 @@ const joinRoom = (roomId: string, username: string, avatar: string) => {
         }
     };
 
-return (
+    return (
         <GameContext.Provider value={{
             socket,
             room,

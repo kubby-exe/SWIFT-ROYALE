@@ -45,27 +45,27 @@ export const TypingArea: React.FC = () => {
         // Optional: Show a toast or message
     };
 
-const renderText = () => {
+    const renderText = () => {
         // Add proper spacing and punctuation handling
         const words = text.split(' ');
         let charIndex = 0;
-        
+
         return words.map((word, wordIndex) => (
             <React.Fragment key={wordIndex}>
-                {word.split('').map((char, index) => {
+                {word.split('').map((char, _index) => {
                     let className = 'char';
-                    
+
                     // Add punctuation class for punctuation marks
                     if (/[.,!?;:'"]/.test(char)) {
                         className += ' punctuation';
                     }
-                    
+
                     if (charIndex < input.length) {
                         className += input[charIndex] === char ? ' correct' : ' incorrect';
                     } else if (charIndex === input.length) {
                         className += ' current';
                     }
-                    
+
                     const element = (
                         <span key={charIndex} className={className}>
                             {char}
@@ -76,8 +76,8 @@ const renderText = () => {
                 })}
                 {/* Add space between words */}
                 {wordIndex < words.length - 1 && (
-                    <span 
-                        key={`space-${wordIndex}`} 
+                    <span
+                        key={`space-${wordIndex}`}
                         className={`char space${charIndex < input.length ? input[charIndex] === ' ' ? ' correct' : ' incorrect' : ''}${charIndex === input.length ? ' current' : ''}`}
                     >
                         {' '}
