@@ -1,0 +1,320 @@
+/* Visual Feedback Components */
+
+.click-ripple {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1000;
+  animation: ripple-expand 0.6s ease-out;
+}
+
+@keyframes ripple-expand {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.success-burst {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 1000;
+  animation: burst-explode 1s ease-out;
+}
+
+.burst-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform-origin: center;
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+
+@keyframes burst-explode {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.power-bar {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  margin: 10px 0;
+}
+
+.power-bar-bg {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.power-bar-fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 4px;
+  position: relative;
+}
+
+.power-bar-glow {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  height: calc(100% + 4px);
+  background: linear-gradient(90deg, transparent, var(--primary-glow), transparent);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: blur(4px);
+  animation: power-pulse 2s ease-in-out infinite;
+}
+
+@keyframes power-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.combo-indicator {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1000;
+  animation: combo-bounce 1s ease-out;
+}
+
+.combo-text {
+  font-size: 2rem;
+  font-weight: 900;
+  text-align: center;
+  background: linear-gradient(45deg, var(--primary), var(--accent), var(--gold));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px var(--primary-glow);
+  letter-spacing: 2px;
+}
+
+.combo-particles {
+  position: relative;
+  width: 100px;
+  height: 20px;
+  margin: 10px auto;
+}
+
+.combo-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--gold);
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  animation: combo-particle-fly 1s ease-out;
+  box-shadow: 0 0 5px var(--gold-glow);
+}
+
+@keyframes combo-bounce {
+  0% { 
+    transform: translate(-50%, -50%) scale(0); 
+    opacity: 0; 
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.2); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: translate(-50%, -50%) scale(1); 
+    opacity: 0; 
+  }
+}
+
+@keyframes combo-particle-fly {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--x, 0px)), calc(-50% + var(--y, -30px))) scale(1);
+    opacity: 0;
+  }
+}
+
+.combo-2 .combo-text { font-size: 2.2rem; }
+.combo-3 .combo-text { font-size: 2.4rem; }
+.combo-4 .combo-text { font-size: 2.6rem; }
+.combo-5 .combo-text { font-size: 2.8rem; }
+.combo-6 .combo-text { font-size: 3rem; }
+.combo-7 .combo-text { font-size: 3.2rem; }
+.combo-8 .combo-text { font-size: 3.4rem; }
+.combo-9 .combo-text { font-size: 3.6rem; }
+.combo-10 .combo-text { 
+  font-size: 4rem; 
+  background: linear-gradient(45deg, var(--gold), var(--secondary), var(--primary));
+  animation: combo-rainbow 0.5s ease-in-out infinite;
+}
+
+@keyframes combo-rainbow {
+  0%, 100% { filter: hue-rotate(0deg); }
+  50% { filter: hue-rotate(180deg); }
+}
+
+.speed-lines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.speed-line {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary-glow), transparent);
+  animation: speed-line-move 1s linear infinite;
+}
+
+@keyframes speed-line-move {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Shake animation for errors */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+/* Pulse animation for important elements */
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 1; 
+  }
+  50% { 
+    transform: scale(1.05); 
+    opacity: 0.8; 
+  }
+}
+
+/* Glow animation for interactive elements */
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 0 0 5px currentColor; 
+  }
+  50% { 
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor; 
+  }
+}
+
+/* Floating animation for decorative elements */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-10px); 
+  }
+}
+
+/* Rotate animation for loading/spinning elements */
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Bounce animation for notifications */
+@keyframes bounce-in {
+  0% { 
+    transform: scale(0); 
+    opacity: 0; 
+  }
+  50% { 
+    transform: scale(1.1); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: scale(1); 
+    opacity: 1; 
+  }
+}
+
+/* Slide in animations */
+@keyframes slide-in-left {
+  0% { 
+    transform: translateX(-100%); 
+    opacity: 0; 
+  }
+  100% { 
+    transform: translateX(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes slide-in-right {
+  0% { 
+    transform: translateX(100%); 
+    opacity: 0; 
+  }
+  100% { 
+    transform: translateX(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes slide-in-top {
+  0% { 
+    transform: translateY(-100%); 
+    opacity: 0; 
+  }
+  100% { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes slide-in-bottom {
+  0% { 
+    transform: translateY(100%); 
+    opacity: 0; 
+  }
+  100% { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}

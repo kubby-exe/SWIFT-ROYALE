@@ -45,16 +45,46 @@ export const TypingArea: React.FC = () => {
         // Optional: Show a toast or message
     };
 
-    const renderText = () => {
-        return text.split('').map((char, index) => {
-            let className = 'char';
-            if (index < input.length) {
-                className += input[index] === char ? ' correct' : ' incorrect';
-            } else if (index === input.length) {
-                className += ' current';
-            }
-            return <span key={index} className={className}>{char}</span>;
-        });
+const renderText = () => {
+        // Add proper spacing and punctuation handling
+        const words = text.split(' ');
+        let charIndex = 0;
+        
+        return words.map((word, wordIndex) => (
+            <React.Fragment key={wordIndex}>
+                {word.split('').map((char, index) => {
+                    let className = 'char';
+                    
+                    // Add punctuation class for punctuation marks
+                    if (/[.,!?;:'"]/.test(char)) {
+                        className += ' punctuation';
+                    }
+                    
+                    if (charIndex < input.length) {
+                        className += input[charIndex] === char ? ' correct' : ' incorrect';
+                    } else if (charIndex === input.length) {
+                        className += ' current';
+                    }
+                    
+                    const element = (
+                        <span key={charIndex} className={className}>
+                            {char}
+                        </span>
+                    );
+                    charIndex++;
+                    return element;
+                })}
+                {/* Add space between words */}
+                {wordIndex < words.length - 1 && (
+                    <span 
+                        key={`space-${wordIndex}`} 
+                        className={`char space${charIndex < input.length ? input[charIndex] === ' ' ? ' correct' : ' incorrect' : ''}${charIndex === input.length ? ' current' : ''}`}
+                    >
+                        {' '}
+                    </span>
+                )}
+            </React.Fragment>
+        ));
     };
 
     return (

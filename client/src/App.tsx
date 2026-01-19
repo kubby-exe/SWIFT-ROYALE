@@ -6,6 +6,7 @@ import { Lobby } from './components/Lobby';
 import { TypingArea } from './components/TypingArea';
 import { Leaderboard } from './components/Leaderboard';
 import { Results } from './components/Results';
+import { DebugInfo } from './components/DebugInfo';
 import './App.css';
 
 const GameContent: React.FC = () => {
@@ -31,6 +32,7 @@ function App() {
   return (
     <GameProvider>
       <GameContent />
+      <DebugInfo />
     </GameProvider>
   );
 }
