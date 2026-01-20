@@ -36,7 +36,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {
         console.log('Initializing socket connection...');
-        const newSocket = io(`http://${window.location.hostname}:3001`, {
+
+        // Use environment variable for production, fallback to localhost for development
+        const serverUrl = import.meta.env.VITE_SERVER_URL || `http://${window.location.hostname}:3001`;
+        console.log('Connecting to server:', serverUrl);
+
+        const newSocket = io(serverUrl, {
             timeout: 10000,
             forceNew: true
         });
